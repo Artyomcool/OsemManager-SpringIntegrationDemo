@@ -28,9 +28,10 @@
 	<beans:bean class="org.kwince.contribs.osem.event.EventDispatcher"/>
 	
 	<beans:bean class="org.kwince.contribs.osem.common.ElasticClientFactory">
-		<beans:property name="nodeLocal" value="false"/>
-		<beans:property name="nodeClient" value="false"/>
 		<beans:property name="clusterName" value="elasticsearch"/>
+		<beans:property name="clientTransportSniff" value="true"/>
+		<beans:property name="host" value="localhost"/>
+		<beans:property name="port" value="9300"/>
 	</beans:bean>
 	
 	<beans:bean id="osemFactory" class="org.kwince.contribs.osem.dao.OsemMangerFactory" autowire="byType" />
