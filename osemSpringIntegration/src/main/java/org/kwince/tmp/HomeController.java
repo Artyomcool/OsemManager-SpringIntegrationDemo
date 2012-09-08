@@ -1,8 +1,8 @@
 package org.kwince.tmp;
 
-import java.util.List;
-
+import org.elasticsearch.index.query.QueryBuilders;
 import org.kwince.contribs.osem.dao.OsemManager;
+import org.kwince.contribs.osem.dao.SearchResult;
 import org.kwince.contribs.osem.event.EventDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +27,12 @@ public class HomeController {
 	private OsemManager osem;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model model) {
-		List<College> colleges = osem.find("{match_all:{}}", College.class);
-		model.addAttribute("entities", colleges);
+	public String home(@RequestParam(defaultValue="0",value="page") Integer page,Model model) {
+		if(page == null)page = 0;
+		SearchResult<College> colleges = osem.find(QueryBuilders.matchAllQuery(), page*10, 10, College.class,"date");
+		model.addAttribute("page",page);
+		model.addAttribute("total",colleges.total());
+		model.addAttribute("entities", colleges.result());
 		return "home";
 	}
 	
@@ -41,7 +44,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String save(College entity,Model model) {
-		entity = osem.update(entity);
+		entity = osem.save(entity);
 		model.addAttribute("entity", entity);
 		return "saved";
 	}
@@ -60,7 +63,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(Model model) {
-		osem.create(new College("test"));
+		osem.save(new College("test"),true);
 		return "redirect:/";
 	}
 	

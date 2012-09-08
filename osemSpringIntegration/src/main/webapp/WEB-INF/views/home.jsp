@@ -26,6 +26,23 @@
 	</c:forEach>
 	</table>
 	
+	<table>
+	<tr>
+		<%int now = (Integer)request.getAttribute("page"); %>
+		<%long to = ((Long)request.getAttribute("total"));%>
+		<%if(to>10){ %>
+			<%to = to%10 == 0 ? to/10-1 : to/10;%>
+			<%for(int i=0;i<=to;i++){%>
+				<%if(i == now){ %>
+					<td><%=i+1%><td>
+				<%} else {%>
+					<td><a href="?page=<%=i%>"><%=i+1%></a><td>
+				<%} %>
+			<%}%>
+		<%}%>
+    </tr>
+	</table>
+	
 	<c:url var="addUrl" value="add"/>
 	<a href="<c:out value="${addUrl}"/>">Add</a>
 

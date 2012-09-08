@@ -7,6 +7,7 @@ public class College {
 	@Id
     private String id;
     private String name;
+    private long date = System.currentTimeMillis();
 
     public College(){
     }
@@ -34,5 +35,9 @@ public class College {
 	@Override
 	public String toString() {
 		return "College [id=" + id + ", name=" + name + "]";
+	}
+
+	public long getDate() {
+		return date;
 	}
 }

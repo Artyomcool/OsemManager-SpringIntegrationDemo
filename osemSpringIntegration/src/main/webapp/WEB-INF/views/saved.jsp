@@ -15,7 +15,7 @@
 	        <td><c:out value="${entity.name}" /></td>
 	    </tr>
 	</table>
-	<c:url var="home" value=""/>
+	<c:url var="home" value="/"/>
 	<a href="<c:out value="${home}"/>">Home</a>
 
 </body>
